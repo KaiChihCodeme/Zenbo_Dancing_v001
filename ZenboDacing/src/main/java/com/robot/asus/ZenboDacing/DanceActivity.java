@@ -1,9 +1,12 @@
 package com.robot.asus.ZenboDacing;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.asus.robotframework.API.RobotCallback;
 import com.asus.robotframework.API.RobotCmdState;
@@ -12,9 +15,15 @@ import com.robot.asus.robotactivity.RobotActivity;
 
 import org.json.JSONObject;
 
-public class MainActivity extends RobotActivity {
+public class DanceActivity extends RobotActivity {
+    private String TAG = "DanceActivity";
+    private ConstraintLayout start;
+    private String gender;
+    private MediaPlayer music_cha = new MediaPlayer();
 
-    private LinearLayout man,lady;
+    public DanceActivity() {
+        super(robotCallback, robotListenCallback);
+    }
 
     public static RobotCallback robotCallback = new RobotCallback() {
         @Override
@@ -66,47 +75,64 @@ public class MainActivity extends RobotActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dance);
 
-        man = (LinearLayout)findViewById(R.id.man);
-        lady = (LinearLayout)findViewById(R.id.lady);
+        Intent intent = getIntent();
+         gender = intent.getStringExtra("motion");
+        Log.d(TAG, "gender: " + gender);
 
-        man.setOnClickListener(new View.OnClickListener() {
+        start =(ConstraintLayout)findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // next layout
-                Intent intent = new Intent();
-                intent.putExtra("motion", "man");
-                intent.setClass(MainActivity.this, DanceActivity.class);
-                startActivity(intent);
-            }
-        });
+                if (gender.equals("man")) {
 
-        lady.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // next layout
-                Intent intent = new Intent();
-                intent.putExtra("motion", "lady");
-                intent.setClass(MainActivity.this, DanceActivity.class);
-                startActivity(intent);
-            }
-        });
+                    music_cha.start();
+                    manDance();
+
+                } else if (gender.equals("lady")) {
+                    ladyDance();
+
+                }
+        }});
 
 
-    }
-
-    public MainActivity() {
-        super(robotCallback, robotListenCallback);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        robotAPI.robot.speak("who am i?");
+        music_cha = MediaPlayer.create(this, R.raw.chacha);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        music_cha.stop();
+
+    }
+
+
+    private void musicPlay() {
+        music_cha = MediaPlayer.create(this, R.raw.chacha);
+        music_cha.start();
+    }
+
+    private void manDance(){
+        robotAPI.robot.speak("Man");
+
+
+    }
+    private void ladyDance(){
+        robotAPI.robot.speak("Lady");
     }
 }
