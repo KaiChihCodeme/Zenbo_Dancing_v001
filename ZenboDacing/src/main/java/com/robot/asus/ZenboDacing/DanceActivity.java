@@ -135,16 +135,7 @@ public class DanceActivity extends RobotActivity {
 
     private void manDance(){
         robotAPI.robot.speak("Man");
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                //逆90
-                robotAPI.motion.moveBody(0f,0f,1.57f);
-                //前進
-                robotAPI.motion.moveBody(0.5f,0f,0f);
-            }
-        };
+
         //順90
         robotAPI.motion.moveBody(0f,0f,-1.57f);
         //前進
@@ -157,12 +148,31 @@ public class DanceActivity extends RobotActivity {
         robotAPI.motion.moveBody(0f,0f,1.57f);
         //後退
         robotAPI.motion.moveBody(-0.1f,0f,0f);
-        timer.schedule(task,2000);
+        Timer timer =new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                Log.d("testtt","124");
+                manDance2();
+            }
+        };
+        timer.schedule(task,20000);
 
 
 
 
 
+
+
+
+    }
+
+    private void manDance2(){
+
+        //逆90
+        robotAPI.motion.moveBody(0f,0f,1.57f);
+        //前進
+        robotAPI.motion.moveBody(0.5f,0f,0f);
     }
     private void ladyDance(){
         robotAPI.robot.speak("Lady");

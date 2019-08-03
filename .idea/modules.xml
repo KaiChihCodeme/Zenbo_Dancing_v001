@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RobotActivityLibrary/RobotActivityLibrary.iml" filepath="$PROJECT_DIR$/RobotActivityLibrary/RobotActivityLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ZenboDacing/ZenboDacing.iml" filepath="$PROJECT_DIR$/ZenboDacing/ZenboDacing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ZenboSDK/ZenboSDK.iml" filepath="$PROJECT_DIR$/ZenboSDK/ZenboSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Zenbo_Dancing v0.0.1.iml" filepath="$PROJECT_DIR$/Zenbo_Dancing v0.0.1.iml" />
+    </modules>
+  </component>
+</project>
