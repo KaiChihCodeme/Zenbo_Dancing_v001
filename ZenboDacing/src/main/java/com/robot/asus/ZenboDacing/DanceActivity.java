@@ -2,11 +2,13 @@ package com.robot.asus.ZenboDacing;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.asus.robotframework.API.RobotCallback;
 import com.asus.robotframework.API.RobotCmdState;
@@ -15,11 +17,15 @@ import com.robot.asus.robotactivity.RobotActivity;
 
 import org.json.JSONObject;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class DanceActivity extends RobotActivity {
     private String TAG = "DanceActivity";
-    private ConstraintLayout start;
+    private TextView start;
     private String gender;
     private MediaPlayer music_cha = new MediaPlayer();
+    final Handler handler = new Handler();
 
     public DanceActivity() {
         super(robotCallback, robotListenCallback);
@@ -84,7 +90,7 @@ public class DanceActivity extends RobotActivity {
          gender = intent.getStringExtra("motion");
         Log.d(TAG, "gender: " + gender);
 
-        start =(ConstraintLayout)findViewById(R.id.start);
+        start =(TextView) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,10 +135,38 @@ public class DanceActivity extends RobotActivity {
 
     private void manDance(){
         robotAPI.robot.speak("Man");
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                //逆90
+                robotAPI.motion.moveBody(0f,0f,1.57f);
+                //前進
+                robotAPI.motion.moveBody(0.5f,0f,0f);
+            }
+        };
+        //順90
+        robotAPI.motion.moveBody(0f,0f,-1.57f);
+        //前進
+        robotAPI.motion.moveBody(1f,0f,0f);
+        //順90
+        robotAPI.motion.moveBody(0f,0f,-1.57f);
+        //前進
+        robotAPI.motion.moveBody(0.5f,0f,0f);
+        //逆90
+        robotAPI.motion.moveBody(0f,0f,1.57f);
+        //後退
+        robotAPI.motion.moveBody(-0.1f,0f,0f);
+        timer.schedule(task,2000);
+
+
+
 
 
     }
     private void ladyDance(){
         robotAPI.robot.speak("Lady");
     }
+
+
 }
